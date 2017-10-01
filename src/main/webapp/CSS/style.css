@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+
+.tb_label{
+	position: absolute;
+}
+
+.tb{
+	margin-left: 80px;
+}
+
+#error{
+	color: red;
+}
