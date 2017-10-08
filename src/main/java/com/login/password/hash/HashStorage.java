@@ -18,6 +18,7 @@ public class HashStorage {
     	PBEKeySpec pbe = new  PBEKeySpec(password, salt, iterations, keyLength);
     	SecretKey sk = skf.generateSecret(pbe);
     	byte[] b = sk.getEncoded();
+    	Arrays.fill(password, '0');
     	return b;
     }
 	
@@ -30,7 +31,6 @@ public class HashStorage {
     	catch(Exception e){
     		e.printStackTrace();
     	}
-
     	for(int i=0; i<original.length; i++){
     		byte ib = hashed[i];
     		if(original[i]==63 && (ib==-99 || ib==-112 || ib==-113 || ib==-115)){

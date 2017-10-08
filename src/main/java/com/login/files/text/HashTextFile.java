@@ -47,7 +47,7 @@ public class HashTextFile {
 			String bText = new String(bFile);
 			
 			int useridIndex = bText.indexOf(" " +userid)+1; //the index of the userid of interest
-			int startHash = -1; //the for loop below will give an out of bounds exception if the value remains -1
+			int startHash = -1;
 			
 			for(int i=useridIndex; i>=0; i--){
 				if(i==0 || bText.charAt(i)=='\n'){
@@ -55,7 +55,7 @@ public class HashTextFile {
 					break;
 				}
 			}
-			String hash = bText.substring(startHash, useridIndex-1);
+			String hash = bText.substring(startHash, useridIndex-1); //array out of bounds exception thrown here if the startHash remains -1 which shouldn't happen
 			bHash = hash.getBytes();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -74,9 +74,9 @@ public class LoginSession{
 		transaction.commit();
 		
 		
-		HashTextFile htFile = new HashTextFile("salts.txt");
+		HashTextFile htFile = new HashTextFile("salt.txt");
 		byte[] salt = htFile.retrieveSalt(userid);
-		return HashStorage.checkHashedPassword(login.getPassword().toCharArray(), salt, password.getBytes());
+		return HashStorage.checkHashedPassword(login.getPassword(), salt, password.getBytes());
 	}
 	
 	public String getFirstname(Login login){

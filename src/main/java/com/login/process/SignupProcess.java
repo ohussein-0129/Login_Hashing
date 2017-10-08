@@ -3,6 +3,7 @@ package com.login.process;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,18 +42,18 @@ public class SignupProcess extends HttpServlet{
 	public void addDetails(HttpServletRequest req){
 		signup = new Signup();
 		signup.setUsername(req.getParameter("username"));
-		//signup.setPassword(req.getParameter("password"));
-		signup.setPassword(hashPassword(req.getParameter("password")));
+		signup.setPassword(hashPassword(req.getParameter("password").toCharArray()));
 		signup.setFirstname(req.getParameter("firstname"));
 		signup.setSurname(req.getParameter("surname"));
 	}
 	
-	public String hashPassword(String password){
+	public String hashPassword(char[] password){
 		byte[] salt = HashStorage.generateSalt();
 		setSalt(salt);
 		byte[] hashed = null;
 		try {
-			hashed = HashStorage.hashPassword(password.toCharArray(), salt, 600, 256);
+			hashed = HashStorage.hashPassword(password, salt, 600, 256);
+			Arrays.fill(password, '0'); //clear the password
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
@@ -63,7 +64,7 @@ public class SignupProcess extends HttpServlet{
 	
 	//saves salt in text file along with the user id
 	public void saveSalt(int userid){
-		HashTextFile htf = new HashTextFile("somalia.txt");
+		HashTextFile htf = new HashTextFile("salt.txt");
 		htf.storeSalt(getSalt(), userid);
 		
 	}

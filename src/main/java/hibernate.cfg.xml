@@ -7,11 +7,11 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">004949</property>
-        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/hibdata</property>
+        <property name="hibernate.connection.password">your-password</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/hibdata</property> <!-- the table name -->
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">update</property> <!-- other option is create which will overwrite the table if it exists -->
         <property name="show_sql">true</property>
     </session-factory>
 </hibernate-configuration>

@@ -1,6 +1,7 @@
 package com.login.process;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +31,9 @@ public class LoginProcess extends HttpServlet{
         }
 		Login login = new Login();
 		login.setUsername(username); 
-		login.setPassword(req.getParameter("password"));
+		login.setPassword(req.getParameter("password").toCharArray());
 		boolean correct = loginSession.correctCredentials(login);
+		Arrays.fill(login.getPassword(), '0'); //clear the password
 		if(correct){
 			//if password is correct
 			HttpSession session = req.getSession();
