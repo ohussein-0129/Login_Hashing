@@ -22,6 +22,13 @@ public class HashStorage {
     	return b;
     }
 	
+	/**
+	 * 
+	 * @param password has to be a character array so that it can be cleared once processed
+	 * @param salt
+	 * @param original hash
+	 * @return
+	 */
 	public static boolean checkHashedPassword(final char[] password, final byte[] salt, final byte[] original){
     	byte[] hashed = null;
     	try{

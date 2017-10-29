@@ -3,11 +3,11 @@ package com.login.files.text;
 import java.io.*;
 
 /**
- * 
  * @author Osman Hussein
  * unique salts will be stored in a text file alongside the userid
  *
  */
+
 public class HashTextFile {
 	private String fileName;
 	
@@ -15,7 +15,15 @@ public class HashTextFile {
 		this.fileName = fileName;
 	}
 	
-	//writes the salt to the text file
+	
+	/**
+	 * Stores the salt in the text file
+	 * @param salt
+	 *        random bytes which will be unique for each user
+	 * @param userid
+	 *        the user id
+	 * @return the line which was written
+	 */
 	public String storeSalt(byte[] salt, int userid){ 
 		File file = new File("C:\\Users\\USER-1\\Desktop\\Java Proj\\login\\src\\main\\resources\\hash storage\\" +getFileName());
 		String saltStr = new String(salt);
@@ -35,7 +43,11 @@ public class HashTextFile {
 		return saltStr +" " +userid;
 	}
 	
-	//gets the salt in bytes
+	/**
+	 * gets the salt of the user
+	 * @param userid
+	 * @return the salt which is an array of bytes
+	 */
 	public byte[] retrieveSalt(int userid){
 		byte[] bHash = null;
 		BufferedInputStream in = null;
@@ -76,6 +88,9 @@ public class HashTextFile {
 	}
 	
 	
+	/**
+	 * @return the file name instance variable
+	 */
 	public String getFileName() {
 		return fileName;
 	}

@@ -1,7 +1,9 @@
 package com.login.dto;
 
 
-/*this is a bean for the signup page*/ 
+/**
+ * this is a bean for the signup page
+ * */ 
 public class Signup {
 	private String username;
 	private String password;

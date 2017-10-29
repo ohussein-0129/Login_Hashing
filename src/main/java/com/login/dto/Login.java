@@ -1,6 +1,8 @@
 package com.login.dto;
 
-/*this is a bean for the login page*/ 
+/**
+ * this is a bean for the login page
+ * */ 
 public class Login{
 	private String username;
 	private char[] password;

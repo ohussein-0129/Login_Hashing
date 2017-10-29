@@ -18,17 +18,21 @@ import com.login.table.Name;
 import com.login.table.User;
 import com.login.password.hash.HashStorage;
 import com.login.files.text.HashTextFile;
+
 /**
- * 
+ * @author Osman Hussein
  * This is for both login and signup sessions
  * This handles all of the database stuff
- *
  */
 public class LoginSession{
 	private Session session = null;
 	public LoginSession(){
 		createSession();
 	}
+	
+	/**
+	 * Creates a new session, called by the constructor
+	 */
 	public void createSession(){
 		if(session!=null && session.isOpen()) session.close();
 		
@@ -43,10 +47,22 @@ public class LoginSession{
 		session = sf.openSession();
 		
 	}
+	
+	/**
+	 * 
+	 * @return the session instance variable
+	 */
 	public Session getSession(){
 		return this.session;
 	}
 	
+	
+	/**
+	 * 
+	 * @param signup
+	 *        the signup data transfer object
+	 * @return the user id
+	 */
 	public int addUser(Signup signup){
 		Transaction transaction = session.beginTransaction();
 		Name name = new Name();
@@ -62,7 +78,12 @@ public class LoginSession{
 		return user.getUserid();
 	}
 	
-	
+	/**
+	 * 
+	 * @param login
+	 *        The login data transfer object
+	 * @return true if credentials are correct
+	 */
 	public boolean correctCredentials(Login login){
 		Transaction transaction = session.beginTransaction();
 		SQLQuery q = session.createSQLQuery("select userid, password from user where username=?");
@@ -70,7 +91,7 @@ public class LoginSession{
 		q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 		Map<String, Object> user = (Map<String, Object>)q.uniqueResult();
 		int userid = (Integer)user.get("userid");
-		String password = (String)user.get("password");
+		String password = (String)user.get("password"); //this is the hashed password
 		transaction.commit();
 		
 		
@@ -79,16 +100,29 @@ public class LoginSession{
 		return HashStorage.checkHashedPassword(login.getPassword(), salt, password.getBytes());
 	}
 	
+	/**
+	 * 
+	 * @param login
+	 *        The login data transfer object
+	 * @return the first name of the person logging in
+	 */
 	public String getFirstname(Login login){
 		Transaction transaction = session.beginTransaction();
-		SQLQuery q = session.createSQLQuery("select firstname from user where username=?");
+		SQLQuery q = session.createSQLQuery("select firstname from user where username=?"); //the username is unique but is not the primary key
 		q.setParameter(0, login.getUsername());
 		String firstname = (String)q.uniqueResult();
 		transaction.commit();
 		return firstname;
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 *        The username in the text field
+	 * @return true if the username exists otherwise false
+	 */
 	public boolean usernameExists(String username){
+		//the username should be unique for every user even though it is not the primary key.
 		Transaction transaction = session.beginTransaction();
 		SQLQuery q = session.createSQLQuery("select count(*) from user where username=?");
 		q.setParameter(0, username);
@@ -97,6 +131,9 @@ public class LoginSession{
 		return count.compareTo(new BigInteger("0"))==1; //checks if the count is more than zero
 	}
 	
+	/**
+	 * Closes the Hibernate session
+	 */
 	public void closeSession(){
 		if(session!=null && session.isOpen()) session.close();
 	}
